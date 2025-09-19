@@ -144,7 +144,7 @@ def test_email_sending():
     print("\n📧 Testing Email Sending...")
     print("=" * 50)
     # api_key = Config.RESEND_API_KEY
-    email_sender = NVIDIAEmailSender("re_AGkUDLEH_6nY1vTtV9KEpsMyfrKbvvRkm")
+    email_sender = NVIDIAEmailSender("")
     
     task_results = create_test_task_results()
     
