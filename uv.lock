@@ -1201,11 +1201,21 @@ name = "horizon"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "beautifulsoup4" },
     { name = "crewai", extra = ["tools"] },
+    { name = "openpyxl" },
+    { name = "pandas" },
+    { name = "requests" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "crewai", extras = ["tools"], specifier = ">=0.186.1,<1.0.0" }]
+requires-dist = [
+    { name = "beautifulsoup4", specifier = ">=4.12.0" },
+    { name = "crewai", extras = ["tools"], specifier = ">=0.186.1,<1.0.0" },
+    { name = "openpyxl", specifier = ">=3.1.0" },
+    { name = "pandas", specifier = ">=2.0.0" },
+    { name = "requests", specifier = ">=2.31.0" },
+]
 
 [[package]]
 name = "hpack"

@@ -1,17 +1,204 @@
-research_task:
+discovery_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
-  expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+    Discover AI startups in {country} by researching:
 
-reporting_task:
-  description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    1. Major venture capital firm portfolios (Kaszek, Monashees, MAYA Capital)
+    2. Local startup databases and tech directories
+    3. Accelerator and incubator program participants
+    4. Tech news sites and startup announcements
+    5. University spin-offs and research commercialization
+
+    Focus on companies that:
+    - Use artificial intelligence, machine learning, or deep learning
+    - Are headquartered in {country}
+    - Have received institutional funding or show strong traction
+    - Are currently active and operational
+    - Could benefit from GPU acceleration
+
+    For each startup, collect:
+    - Company name and website URL
+    - Brief business description
+    - Founding year and key milestones
+    - Primary location/city
+    - Core AI technology focus
+    - Target market and customers
+
+    Target: Find 15-20 promising AI startups with detailed preliminary information.
   expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
+    A structured JSON list of discovered AI startups with company name, website,
+    description, founding year, location, AI technology focus, and target market.
+    Include source URLs where information was found.
+  agent: discovery_agent
+
+qualification_task:
+  description: >
+    For each discovered startup, conduct detailed technical analysis:
+
+    1. Technology Stack Assessment:
+       - Primary AI/ML technologies used (NLP, Computer Vision, etc.)
+       - Development frameworks and tools
+       - GPU/CUDA utilization potential
+       - Technical architecture sophistication
+
+    2. Product Analysis:
+       - Core products and services offered
+       - Technical differentiation and innovation
+       - Integration capabilities with NVIDIA stack
+       - Scalability and performance characteristics
+
+    3. Market Positioning:
+       - Target customer segments
+       - Industry vertical focus
+       - Competitive advantages
+       - Market traction indicators
+
+    4. NVIDIA Alignment Score (1-10):
+       - GPU acceleration potential
+       - AI infrastructure needs
+       - Technology stack compatibility
+       - Partnership opportunity value
+
+    Visit company websites, product documentation, and technical resources
+    to make accurate assessments.
+  expected_output: >
+    Detailed technical profiles for each startup including AI technology classification,
+    product analysis, market positioning, and NVIDIA alignment scoring with justification.
+  agent: qualification_agent
+
+funding_research_task:
+  description: >
+    Research comprehensive funding information for each qualified startup:
+
+    1. Funding History:
+       - Latest funding round (amount, date, stage, lead investor)
+       - Total capital raised to date
+       - Previous funding rounds and progression
+       - Valuation trends and growth
+
+    2. Investor Analysis:
+       - Lead investors and VC firms involved
+       - Investor quality and reputation assessment
+       - Strategic investors and corporate partnerships
+       - Board composition and advisor network
+
+    3. Financial Health Indicators:
+       - Revenue growth trajectory (if public)
+       - Employee count growth   
+       - Market expansion activities
+       - Partnership announcements
+
+    4. Investment Attractiveness (1-10):
+       - Investor quality score
+       - Funding stage appropriateness
+       - Growth trajectory assessment
+       - Follow-on funding potential
+
+    Prioritize startups with Series A+ funding from recognized institutional investors.
+  expected_output: >
+    Comprehensive funding analysis with investor profiles, financial metrics,
+    and investment attractiveness scoring for each startup.
+  agent: funding_intelligence_agent
+
+leadership_research_task:
+  description: >
+    Identify and profile key technical leadership for each startup:
+
+    1. Executive Team Research:
+       - Chief Technology Officer (CTO)
+       - Technical co-founders
+       - VP of Engineering or equivalent
+       - Head of AI/Data Science roles
+
+    2. Professional Background Analysis:
+       - Educational credentials (focus on AI/CS programs)
+       - Previous work experience at tech companies
+       - Leadership roles and career progression
+       - Technical expertise areas and specializations
+
+    3. Industry Presence:
+       - Professional LinkedIn profiles
+       - Technical publications or patents
+       - Conference speaking engagements
+       - Open source contributions or projects
+
+    4. Team Strength Assessment (1-10):
+       - Technical leadership quality
+       - Industry experience relevance
+       - Track record of success
+       - Network and connections
+
+    Focus on finding direct contact information and networking opportunities.
+  expected_output: >
+    Leadership profiles with LinkedIn links, professional backgrounds,
+    technical expertise assessment, and team strength scoring.
+  agent: leadership_scout_agent
+
+market_analysis_task:
+  description: >
+    Conduct comprehensive market analysis for {country} AI ecosystem:
+
+    1. Market Landscape Assessment:
+       - Current state of AI startup ecosystem
+       - Most active AI sectors and applications
+       - Technology adoption trends and drivers
+       - Government policies and AI initiatives
+
+    2. Competitive Analysis:
+       - Major AI companies and competitive landscape
+       - Market gaps and underserved segments
+       - Emerging opportunities and niches
+       - International competition and threats
+
+    3. Investment Climate:
+       - VC activity levels and trends
+       - Average funding sizes and stages
+       - Exit activity (acquisitions, IPOs)
+       - International investor participation
+
+    4. Growth Opportunities:
+       - High-potential AI application areas
+       - Infrastructure development needs
+       - Talent availability and education
+       - Regulatory environment and support
+
+    Provide actionable insights for partnership and investment strategies.
+  expected_output: >
+    Comprehensive market intelligence report covering ecosystem state, competitive
+    landscape, investment climate, and strategic opportunities in {country}.
+  agent: market_intelligence_agent
+
+validation_and_scoring_task:
+  description: >
+    Validate all collected startup information and create comprehensive scoring:
+
+    1. Data Validation:
+       - Cross-reference company information across sources
+       - Verify funding amounts and investor details
+       - Validate technical claims and capabilities
+       - Confirm leadership information and backgrounds
+
+    2. Quality Assessment:
+       - Flag data inconsistencies or gaps
+       - Assess information reliability and recency
+       - Identify areas needing additional research
+       - Note conflicting information sources
+
+    3. Comprehensive Scoring System:
+       - Technology Innovation (1-10): Technical sophistication and differentiation
+       - Market Potential (1-10): Addressable market size and growth
+       - Team Strength (1-10): Leadership quality and experience
+       - Funding Attractiveness (1-10): Financial health and investor quality
+       - NVIDIA Alignment (1-10): Partnership potential and stack compatibility
+       - Overall Score (1-10): Weighted average recommendation
+
+    4. Final Recommendations:
+       - Tier startups (Tier 1: Immediate interest, Tier 2: Monitor, Tier 3: Pass)
+       - Highlight top 5-10 priority companies
+       - Identify specific partnership opportunities
+       - Note potential red flags or concerns
+
+    Create actionable database for partnership development team.
+  expected_output: >
+    Validated startup database with comprehensive scoring, quality flags,
+    tiered recommendations, and priority company highlights for partnership development.
+  agent: validation_agent

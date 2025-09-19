@@ -1,11 +1,15 @@
 [project]
 name = "horizon"
 version = "0.1.0"
-description = "horizon using crewAI"
+description = "NVIDIA Inception AI Startup Discovery using crewAI"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
-    "crewai[tools]>=0.186.1,<1.0.0"
+    "crewai[tools]>=0.186.1,<1.0.0",
+    "pandas>=2.0.0",
+    "beautifulsoup4>=4.12.0",
+    "requests>=2.31.0",
+    "openpyxl>=3.1.0"
 ]
 
 [project.scripts]
@@ -14,6 +18,7 @@ run_crew = "horizon.main:run"
 train = "horizon.main:train"
 replay = "horizon.main:replay"
 test = "horizon.main:test"
+discover_startups = "horizon.main:discover_startups"
 
 [build-system]
 requires = ["hatchling"]
