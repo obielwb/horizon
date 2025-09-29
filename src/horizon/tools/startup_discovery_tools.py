@@ -7,6 +7,8 @@ import json
 import time
 import re
 from urllib.parse import urljoin, urlparse
+from pathlib import Path
+from horizon.utils.database import StartupDB
 
 # Initialize built-in CrewAI tools
 scrape_tool = ScrapeWebsiteTool()
@@ -44,6 +46,10 @@ class StartupDiscoveryTool(BaseTool):
     )
     args_schema: Type[BaseModel] = StartupSearchInput
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.db = StartupDB(Path("outputs/discovered_startups.json"))
+
     def _run(self, country: str, industry: str = "AI", specific_ventures: Optional[List[str]] = None, funding_stage: str = "all") -> str:
         """Discover startups by searching multiple online sources"""
         
@@ -63,6 +69,7 @@ class StartupDiscoveryTool(BaseTool):
         ]
         
         discovered_startups = []
+        existing_startups = self.db.load_startups()
         
         for search_query in startup_sources[:5]:  # Limit searches
             try:
@@ -75,7 +82,8 @@ class StartupDiscoveryTool(BaseTool):
                 print(f"Search error for query '{search_query}': {e}")
                 continue
         
-        unique_startups = self._deduplicate_startups(discovered_startups)
+        unique_startups = self._deduplicate_startups(discovered_startups, existing_startups)
+        self.db.add_startups(unique_startups)
         
         return json.dumps({
             "country": country,
@@ -236,10 +244,10 @@ class StartupDiscoveryTool(BaseTool):
         capitalized_words = [word for word in words[:5] if word and word[0].isupper() and len(word) > 1]
         return ' '.join(capitalized_words[:2]) if capitalized_words else ""
     
-    def _deduplicate_startups(self, startups: List[Dict]) -> List[Dict]:
-        """Remove duplicate startups based on name similarity"""
+    def _deduplicate_startups(self, startups: List[Dict], existing_startups: List[str]) -> List[Dict]:
+        """Remove duplicate startups based on name similarity and existing database."""
         unique_startups = []
-        seen_names = set()
+        seen_names = set(existing_startups)
         
         for startup in startups:
             name = startup.get("name", "").lower().strip()
