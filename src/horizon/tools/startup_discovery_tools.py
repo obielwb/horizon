@@ -48,7 +48,8 @@ class StartupDiscoveryTool(BaseTool):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.db = StartupDB(Path("outputs/discovered_startups.json"))
+        # Change to store full startup data
+        self.db = StartupDB(Path("outputs/startup_database.json"))
 
     def _run(self, country: str, industry: str = "AI", specific_ventures: Optional[List[str]] = None, funding_stage: str = "all") -> str:
         """Discover startups by searching multiple online sources"""
@@ -82,15 +83,19 @@ class StartupDiscoveryTool(BaseTool):
                 print(f"Search error for query '{search_query}': {e}")
                 continue
         
-        unique_startups = self._deduplicate_startups(discovered_startups, existing_startups)
-        self.db.add_startups(unique_startups)
+        for startup in discovered_startups:
+            startup['country'] = country
+            startup['industry'] = industry
+        
+        added_count = self.db.add_startups(discovered_startups)
         
         return json.dumps({
             "country": country,
             "industry": industry,
             "search_type": "general_discovery",
-            "total_found": len(unique_startups),
-            "startups": unique_startups[:20],
+            "total_found": len(discovered_startups),
+            "newly_added": added_count,
+            "startups": discovered_startups[:20],
             "sources_searched": len(startup_sources)
         }, indent=2)
     
@@ -244,19 +249,6 @@ class StartupDiscoveryTool(BaseTool):
         capitalized_words = [word for word in words[:5] if word and word[0].isupper() and len(word) > 1]
         return ' '.join(capitalized_words[:2]) if capitalized_words else ""
     
-    def _deduplicate_startups(self, startups: List[Dict], existing_startups: List[str]) -> List[Dict]:
-        """Remove duplicate startups based on name similarity and existing database."""
-        unique_startups = []
-        seen_names = set(existing_startups)
-        
-        for startup in startups:
-            name = startup.get("name", "").lower().strip()
-            if name and name not in seen_names and len(name) > 2:
-                seen_names.add(name)
-                unique_startups.append(startup)
-        
-        return unique_startups
-
 class CompanyAnalysisTool(BaseTool):
     name: str = "company_analysis_tool"
     description: str = (

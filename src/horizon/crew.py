@@ -166,8 +166,8 @@ class Horizon():
     def discover_country(self, country: str, specific_ventures: Optional[List[str]] = None) -> Dict[str, Any]:
         """Run complete startup discovery for a specific country"""
         
-        print(f"\n🚀 Starting AI Startup Discovery for {country}")
-        print(f"🎯 Target: NVIDIA Inception Program Candidates")
+        print(f"\nStarting AI Startup Discovery for {country}")
+        print(f"Target: NVIDIA Inception Program Candidates")
         
         if specific_ventures:
             print(f"📋 Specific ventures to research: {', '.join(specific_ventures)}")

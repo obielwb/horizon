@@ -16,3 +16,5 @@ O sistema tem como base uma lista das top venture capitals da america latina, e 
 Quinzenalmente o sistema vai rodar novamente para encontrar novas startups.
 Ele vai retornar tanto uma newsletter com as stasrtups encontradas, quanto um excel com toda a base de dados.
 Ele vai buscar com base
+
+TODO: no tasks.yaml nao estou passando as venture capitals

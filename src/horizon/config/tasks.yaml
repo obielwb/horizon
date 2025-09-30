@@ -15,18 +15,20 @@ discovery_task:
     - Are currently active and operational
     - Could benefit from GPU acceleration
 
-    For each startup, collect:
-    - Company name and website URL
-    - Brief business description
-    - Founding year and key milestones
-    - Primary location/city
-    - Core AI technology focus
-    - Target market and customers
+    For each startup, collect consistent fields:
+    - name (Company Name)
+    - website (Website URL)
+    - description (Brief business description)
+    - location (Primary location/city)
+    - country (Country)
+    - technology (Core AI technology focus)
+    - market (Target market and customers)
+    - founded (Founding year)
+    - milestones (Key milestones and investors)
 
     Target: Find 15-20 promising AI startups with detailed preliminary information.
   expected_output: >
-    A structured JSON list of discovered AI startups with company name, website,
-    description, founding year, location, AI technology focus, and target market.
+    A structured JSON list of discovered AI startups with consistent field names.
     Include source URLs where information was found.
   agent: discovery_agent
 

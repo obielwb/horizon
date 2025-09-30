@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import os
+from typing import Dict, List
 from dotenv import load_dotenv
 load_dotenv() 
 
@@ -61,45 +62,50 @@ if 'discovery_results' not in st.session_state:
     st.session_state.discovery_results = None
 
 def load_startup_database():
-    """Load all discovered startups from output files"""
-    outputs_dir = Path("outputs")
-    all_startups = []
+    """Load all discovered startups from the main database and supplement with output files"""
+    main_db_path = Path("outputs/startup_database.json")
     
-    if not outputs_dir.exists():
-        return pd.DataFrame()
-    
-    # Load from various JSON files
-    json_files = list(outputs_dir.glob("*.json"))
-    
-    for json_file in json_files:
+    # Load from main database first
+    if main_db_path.exists():
         try:
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                
-                # Handle different JSON structures
-                if isinstance(data, list):
-                    all_startups.extend(data)
-                elif isinstance(data, dict):
-                    # Handle task results structure
-                    if 'task_results' in data:
-                        for task_name, task_result in data['task_results'].items():
-                            if isinstance(task_result, str):
-                                try:
-                                    parsed = json.loads(task_result)
-                                    if isinstance(parsed, list):
-                                        all_startups.extend(parsed)
-                                except:
-                                    # If it's not JSON, it might be a string representation
-                                    pass
+            with open(main_db_path, 'r', encoding='utf-8') as f:
+                main_startups = json.load(f)
         except Exception as e:
-            print(f"Warning: Error loading {json_file.name}: {str(e)}")
+            print(f"Error loading main database: {e}")
+            main_startups = []
+    else:
+        main_startups = []
     
+    # Also load from individual country discovery files for backward compatibility
+    outputs_dir = Path("outputs")
+    additional_startups = []
+    
+    if outputs_dir.exists():
+        for json_file in outputs_dir.glob("nvidia_inception_*.json"):
+            try:
+                with open(json_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    additional_startups.extend(_extract_startups_from_discovery_file(data))
+            except Exception as e:
+                print(f"Warning: Error loading {json_file.name}: {e}")
+    
+    # Combine and deduplicate
+    all_startups = main_startups + additional_startups
     if not all_startups:
         return pd.DataFrame()
     
-    df = pd.DataFrame(all_startups)
+    # Deduplicate based on name
+    seen_names = set()
+    unique_startups = []
+    for startup in all_startups:
+        name = startup.get('name', '').lower().strip()
+        if name and name not in seen_names:
+            seen_names.add(name)
+            unique_startups.append(startup)
     
-    # More comprehensive column name standardization
+    df = pd.DataFrame(unique_startups)
+    
+    # Standardize column names
     column_mapping = {
         'Company Name': 'name',
         'company_name': 'name',
@@ -109,7 +115,7 @@ def load_startup_database():
         'URL': 'website',
         'Description': 'description',
         'Location': 'location',
-        'country': 'location',
+        'country': 'location',  # Map country to location for consistency
         'Country': 'location',
         'AI Technology Focus': 'technology',
         'industry': 'technology',
@@ -125,11 +131,28 @@ def load_startup_database():
     # Apply column mapping
     df = df.rename(columns={k: v for k, v in column_mapping.items() if k in df.columns})
     
-    # Drop duplicates based on name
-    if 'name' in df.columns:
-        df = df.drop_duplicates(subset=['name'], keep='first')
-    
     return df
+
+def _extract_startups_from_discovery_file(self, data: Dict) -> List[Dict]:
+    """Extract startups from discovery result files"""
+    startups = []
+    
+    if 'task_results' in data:
+        for task_name, task_result in data['task_results'].items():
+            if isinstance(task_result, str):
+                try:
+                    # Try to parse JSON arrays of startups
+                    if task_result.strip().startswith('['):
+                        parsed = json.loads(task_result)
+                        if isinstance(parsed, list):
+                            for item in parsed:
+                                if isinstance(item, dict) and item.get('name') or item.get('Company Name'):
+                                    startups.append(item)
+                except json.JSONDecodeError:
+                    # If it's not JSON, skip this task result
+                    pass
+    
+    return startups
 
 def display_startup_card(startup):
     """Display a single startup as a card"""
@@ -173,7 +196,9 @@ def run_discovery(countries, ventures):
         with st.spinner(f"🔍 Discovering AI startups in {', '.join(countries)}..."):
             discovery_system = Horizon()
             
+            print("Starting discovery with the following parameters:")
             if len(countries) == 1:
+                print("Single country mode")
                 results = discovery_system.discover_country(
                     countries[0],
                     specific_ventures=ventures if ventures else None

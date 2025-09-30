@@ -4,7 +4,6 @@ import warnings
 
 from datetime import datetime
 
-from horizon.resend import NVIDIAEmailSender
 
 from .config import Config
 from .crew import Horizon  
@@ -67,7 +66,7 @@ def run():
             
 
 
-        if resend_api_key:
+        if False:
             # Extract task results for email
             task_results = {}
             
