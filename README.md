@@ -1,54 +1,101 @@
-# Horizon Crew
+# Horizon: Descoberta de Startups de IA para NVIDIA Inception
 
-Welcome to the Horizon Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+![Horizon Logo](https://via.placeholder.com/150?text=Horizon) <!-- Substitua por um logo real se disponível -->
 
-## Installation
+[![Licença: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![CrewAI](https://img.shields.io/badge/CrewAI-v0.186.1-green)](https://crewai.com/)
 
-Ensure you have Python >=3.10 <3.14 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+## Descrição
 
-First, if you haven't already, install uv:
+O **Horizon** é uma solução desenvolvida para o desafio do NVIDIA Inception, parte do Inteli Academy Challenge. Ele utiliza agentes de inteligência artificial (baseados em CrewAI) para automatizar a descoberta, análise e qualificação de startups de IA na América Latina. O foco é identificar startups apoiadas por top VCs (Venture Capitals), realizar análises de mercado, validar e pontuar as startups, analisar investimentos e enviar newsletters com insights estratégicos.
 
-```bash
-pip install uv
-```
+Essa ferramenta aborda o problema de fragmentação de dados no ecossistema de startups, ajudando a NVIDIA a mapear oportunidades promissoras e fortalecer o programa Inception. Inspirado no case da NVIDIA, o Horizon transforma dados dispersos em relatórios acionáveis, facilitando parcerias e networking.
 
-Next, navigate to your project directory and install the dependencies:
+## Funcionalidades Principais
 
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
-```
-### Customizing
+- **Descoberta de Startups**: Busca startups de IA apoiadas por top VCs na América Latina usando ferramentas de busca web e scraping de sites.
+- **Análise de Mercado**: Gera relatórios sobre o ecossistema de IA por país, incluindo cenário competitivo, oportunidades de crescimento, tendências e gaps de mercado.
+- **Validação e Scoring**: Valida dados das startups e atribui scores baseados em inovação, potencial de mercado, alinhamento com tecnologias NVIDIA (ex.: GPUs/CUDA) e atratividade de investimento.
+- **Análise de Funding e VCs**: Identifica investidores, rodadas de investimento, setores e qualidade dos VCs.
+- **Envio de Newsletter**: Gera e envia relatórios consolidados via email (usando Resend API), com outputs em JSON (ex.: discovered_startups.json, market_analysis.json).
+- **Armazenamento de Dados**: Usa banco de dados JSON persistente para evitar duplicatas e padronizar informações.
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+## Tecnologias Utilizadas
 
-- Modify `src/horizon/config/agents.yaml` to define your agents
-- Modify `src/horizon/config/tasks.yaml` to define your tasks
-- Modify `src/horizon/crew.py` to add your own logic, tools and specific args
-- Modify `src/horizon/main.py` to add custom inputs for your agents and tasks
+- **Framework Principal**: CrewAI para orquestração de agentes de IA.
+- **Linguagem**: Python 3.10+.
+- **Dependências** (de pyproject.toml):
+  - crewai[tools] (>=0.186.1)
+  - pandas (>=2.0.0)
+  - beautifulsoup4 (>=4.12.0)
+  - requests (>=2.31.0)
+  - openpyxl (>=3.1.0)
+- **Ferramentas Customizadas**: StartupDiscoveryTool, CompanyAnalysisTool, FundingResearchTool, LinkedInSearchTool, etc.
+- **Integrações**: Busca em X (Twitter), web scraping, LinkedIn search, email via Resend.
+- **Outputs**: Arquivos JSON e MD para relatórios (ex.: nvidia_inception_brazil_summary.md).
 
-## Running the Project
+## Instalação
 
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
+1. Clone o repositório:
 
-```bash
-$ crewai run
-```
+   ```
+   git clone https://github.com/seu-usuario/horizon.git
+   cd horizon
+   ```
 
-This command initializes the horizon Crew, assembling the agents and assigning them tasks as defined in your configuration.
+2. Instale as dependências usando Poetry (recomendado) ou pip:
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+   ```
+   poetry install
+   ```
 
-## Understanding Your Crew
+   Ou:
 
-The horizon Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
+   ```
+   pip install -r requirements.txt  # Crie um requirements.txt se necessário: poetry export -f requirements.txt --output requirements.txt
+   ```
 
-## Support
+3. Configure variáveis de ambiente (crie um `.env` na raiz):
+   ```
+   RESEND_API_KEY=sua-chave-resend
+   OPENAI_API_KEY=sua-chave-openai
+   ```
 
-For support, questions, or feedback regarding the Horizon Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
+## Uso
 
-Let's create wonders together with the power and simplicity of crewAI.
+1. Execute o script principal para descobrir startups. Para mudar o país, altere no arquivo `main.py`
+
+   ```
+   crewai run
+   ```
+
+2. Outputs gerados:
+
+   - `discovered_startups.json`: Lista de startups encontradas.
+   - `market_analysis.json`: Análise de mercado.
+   - `funding_analysis.json`: Detalhes de funding.
+
+3. Para testar o envio de email:
+   ```
+   poetry run python src/horizon/utils/email_tester.py
+   ```
+
+## Configuração Avançada
+
+- **Agentes e Tarefas**: Configurados em `src/horizon/config/agents.yaml` e `tasks.yaml`.
+- **Banco de Dados**: Gerenciado por `src/horizon/utils/database.py` (JSON-based).
+- **Ferramentas**: Definidas em `src/horizon/tools/startup_discovery_tools.py`.
+- Personalize queries de busca ou prompts de agentes editando os YAMLs.
+
+## Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
+## Contato
+
+- Desenvolvedor: [Seu Nome] (obielwb@gmail.com)
+- LinkedIn: [Seu Perfil]
+- Para dúvidas sobre o desafio NVIDIA: ana.silva@sou.inteli.edu.br ou jonathan.alves@sou.inteli.edu.br
+
+Desenvolvido como parte do Inteli Academy Challenge em parceria com NVIDIA. Aceite o desafio de impulsionar o futuro da inovação! 🚀

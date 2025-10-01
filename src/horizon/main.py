@@ -68,7 +68,7 @@ def run():
             
 
 
-        if False:
+        if resend_api_key:
             # Extract task results for email
             task_results = {}
             
@@ -125,7 +125,7 @@ def run():
                 email_result = email_sender.send_report_email(
                     task_results=task_results,
                     to_emails=recipient_emails,
-                    subject=f"NVIDIA Inception AI Startup Discovery Report - {target_countries[0]} - {datetime.now().strftime('%Y-%m-%d')}",
+                    subject=f"Horizon Discovery Report - {target_countries[0]} - {datetime.now().strftime('%Y-%m-%d')}",
                     from_email=Config.RESEND_FROM_EMAIL
                 )
                 
