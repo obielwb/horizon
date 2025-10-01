@@ -53,5 +53,77 @@
     "Target Market": "Enterprise",
     "Key Milestones": "Co-Investors: GFC, Kinea",
     "Source URL": "http://www.techinasia.com"
+  },
+  {
+    "name": "NeuralMind",
+    "website": "https://neuralmind.ai/",
+    "description": "NeuralMind specializes in AI-based solutions for text analysis, offering technology for both public and private sectors with a focus on improving efficiency and security.",
+    "location": "Campinas, São Paulo",
+    "country": "Brazil",
+    "technology": "Natural Language Processing, Machine Learning",
+    "market": "Public Security, Private Enterprises",
+    "founded": "2017",
+    "milestones": "Received R$5 million investment from FAPESP and partnerships with major governmental bodies. Featured in StartSe and TechCrunch.",
+    "source_url": "https://www.startse.com/neuralmind"
+  },
+  {
+    "name": "iFood",
+    "website": "https://www.ifood.com.br/",
+    "description": "iFood is leveraging artificial intelligence to optimize logistics and enhance customer experiences in food delivery.",
+    "location": "São Paulo, São Paulo",
+    "country": "Brazil",
+    "technology": "Machine Learning, AI Optimization",
+    "market": "Food Delivery, eCommerce",
+    "founded": "2011",
+    "milestones": "Part of Movile Group, raised over $500M in funding, significant growth during the pandemic.",
+    "source_url": "https://www.crunchbase.com/organization/ifood"
+  },
+  {
+    "name": "In Loco",
+    "website": "https://www.inloco.com.br/",
+    "description": "In Loco offers precise location services and analytics via a unique indoor location technology, enhancing mobile targeting capabilities.",
+    "location": "Recife, Pernambuco",
+    "country": "Brazil",
+    "technology": "Indoor Positioning, Data Analytics",
+    "market": "Retail, Advertising",
+    "founded": "2014",
+    "milestones": "Top 10 location startup by 'Fast Company'. Raised $25M in funding.",
+    "source_url": "https://www.forbes.com/profile/in-loco/"
+  },
+  {
+    "name": "NeuralMind",
+    "website": "https://neuralmind.ai",
+    "description": "NeuralMind IA desenvolvida no Brasil para alavancar a produtividade e proficiência de empresas e governo",
+    "location": "Campinas",
+    "country": "Brazil",
+    "technology": "AI for workflow automation",
+    "market": "Legal, Regulatory, Financial sectors",
+    "founded": "2019",
+    "milestones": "Developed AI agents for information access and workflow automation",
+    "source_url": "https://techcrunch.com"
+  },
+  {
+    "name": "StartSe Escola",
+    "website": "https://www.startse.com",
+    "description": "A escola internacional de negócios focada em cursos de Inteligência Artificial",
+    "location": "São Paulo",
+    "country": "Brazil",
+    "technology": "AI Education",
+    "market": "Business professionals and companies",
+    "founded": "2017",
+    "milestones": "Partnerships with Google, Microsoft, OpenAI, Nvidia",
+    "source_url": "https://techcrunch.com"
+  },
+  {
+    "name": "Kaszek Ventures",
+    "website": "https://kaszek.com",
+    "description": "Tech entrepreneurs partnering with founders in Latin America",
+    "location": "São Paulo",
+    "country": "Brazil",
+    "technology": "Tech Venture Capital",
+    "market": "Startups across technology sectors",
+    "founded": "2011",
+    "milestones": "Invested in various Latin American startups",
+    "source_url": "https://techcrunch.com"
   }
 ]

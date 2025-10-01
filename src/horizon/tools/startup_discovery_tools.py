@@ -45,6 +45,7 @@ class StartupDiscoveryTool(BaseTool):
         "Can search for specific ventures if provided."
     )
     args_schema: Type[BaseModel] = StartupSearchInput
+    db: Optional[StartupDB] = Field(None, exclude=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -61,7 +62,7 @@ class StartupDiscoveryTool(BaseTool):
         # Default search for general startup discovery
         startup_sources = [
             f"{country} {industry} startups 2024 2023",
-            f"site:crunchbase.com {country} {industry} startups",
+            f"site:https://crunchbase.com {country} {industry} startups",
             f"{country} artificial intelligence companies",
             f"{country} tech startups funding rounds",
             f"Kaszek Ventures {country} portfolio",

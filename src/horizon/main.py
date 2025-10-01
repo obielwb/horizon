@@ -32,8 +32,10 @@ def run():
         "gabriel.bartmanovicz@sou.inteli.edu.br",
     ]
     
-    specific_ventures = ["Kaszek Ventures", "Monashees"]
-    target_countries = ["Brazil"]
+    specific_ventures = [
+        "MAYA Capital", "QED Investors",
+    ]
+    target_countries = ["Mexico", "Brazil"]
   
     
     print(f"✅ Proceeding with: {', '.join(target_countries)}")

@@ -9,7 +9,7 @@ import os
 from datetime import datetime
 
 from ..config import Config
-from ..resend import NVIDIAEmailSender
+from ..resend_client import NVIDIAEmailSender
 
 
 def create_test_task_results():

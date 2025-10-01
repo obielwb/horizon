@@ -1,3 +1,4 @@
+import os
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
@@ -179,7 +180,7 @@ class Horizon():
             'target_technologies': self._get_config_value('AI_TECHNOLOGIES', 'AI, ML, Deep Learning'),
             'target_sectors': self._get_config_value('MARKET_SECTORS', 'FinTech, HealthTech, EdTech'),
             'funding_stages': self._get_config_value('FUNDING_STAGES', 'Series A, Series B, Series C'),
-            'specific_ventures': ', '.join(specific_ventures) if specific_ventures else 'None specified'
+            'specific_ventures': ', '.join(specific_ventures) if specific_ventures else self._get_config_value('LATAM_VCS', 'Major venture capital firm portfolios (Kaszek, Monashees, MAYA Capital)'),
         }
         
         try:
@@ -266,11 +267,16 @@ class Horizon():
         """Export results to multiple formats"""
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        base_filename = f"nvidia_inception_{country.lower()}_{timestamp}"
+        folder_name = f"{timestamp}"
+        base_filename = f"{folder_name}/nvidia_inception_{country.lower()}"
+        
+        # Create the folder if it doesn't exist
+        os.makedirs(folder_name, exist_ok=True)
         
         # Export comprehensive JSON
         with open(f"{base_filename}.json", "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2, ensure_ascii=False)
+    
         
         # Extract startup data for CSV export
         startup_data = []

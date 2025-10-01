@@ -2,7 +2,7 @@ discovery_task:
   description: >
     Discover AI startups in {country} by researching:
 
-    1. Major venture capital firm portfolios (Kaszek, Monashees, MAYA Capital)
+    1. In the following venture capitals: {specific_ventures}
     2. Local startup databases and tech directories
     3. Accelerator and incubator program participants
     4. Tech news sites and startup announcements
