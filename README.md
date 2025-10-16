@@ -92,8 +92,8 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ## Contato
 
-- Desenvolvedor: [Seu Nome] (obielwb@gmail.com)
-- LinkedIn: [Seu Perfil]
+- Desenvolvedor: Gabriel Willian Bartmanovicz (obielwb@gmail.com)
+- LinkedIn: https://www.linkedin.com/in/gabriel-bartmanovicz/
 - Para dúvidas sobre o desafio NVIDIA: ana.silva@sou.inteli.edu.br ou jonathan.alves@sou.inteli.edu.br
 
-Desenvolvido como parte do Inteli Academy Challenge em parceria com NVIDIA. Aceite o desafio de impulsionar o futuro da inovação! 🚀
+Desenvolvido como parte do Inteli Academy Challenge em parceria com NVIDIA.
